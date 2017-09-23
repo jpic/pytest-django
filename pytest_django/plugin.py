@@ -441,7 +441,10 @@ def _django_set_urlconf(request):
     if marker:
         skip_if_no_django()
         import django.conf
-        from django.core.urlresolvers import clear_url_caches, set_urlconf
+        try:
+            from django.core.urlresolvers import clear_url_caches, set_urlconf
+        except ImportError:
+            from django.urls import clear_url_caches, set_urlconf
 
         validate_urls(marker)
         original_urlconf = django.conf.settings.ROOT_URLCONF
